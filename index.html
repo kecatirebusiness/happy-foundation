@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Happy · Fundación para animales que merecen una segunda oportunidad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Fredoka:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink-50:#FDF5F9;
+    --pink-100:#F7E4EE;
+    --pink-200:#EDC7DC;
+    --pink-300:#D7A3C4;
+    --pink-400:#C288AD;
+    --pink-500:#A86A90;
+    --ink:#2B1E28;
+    --muted:#7C6A77;
+    --cream:#FBF7F3;
+    --cream-deep:#F3ECE4;
+    --ease: cubic-bezier(.22,.8,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    line-height:1.5;
+  }
+  ::selection{background:var(--pink-300);color:#fff}
+
+  /* ----------- Grain overlay ----------- */
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    pointer-events:none;z-index:100;
+    opacity:.35;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95  0 0 0 0 0.92  0 0 0 0 0.93  0 0 0 0.22 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* ----------- Nav ----------- */
+  nav{
+    position:fixed;top:24px;left:50%;transform:translateX(-50%);
+    background:rgba(255,255,255,.72);
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    border:1px solid rgba(215,163,196,.28);
+    border-radius:99px;
+    padding:10px 14px 10px 22px;
+    display:flex;align-items:center;gap:28px;
+    z-index:50;
+    box-shadow:0 10px 30px rgba(168,106,144,.08);
+    font-family:'Fredoka';
+  }
+  nav .brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px;color:var(--ink);letter-spacing:-.5px}
+  nav .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--pink-300);box-shadow:0 0 0 4px rgba(215,163,196,.25)}
+  nav ul{display:flex;gap:22px;list-style:none}
+  nav a{color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;opacity:.72;transition:opacity .3s}
+  nav a:hover{opacity:1}
+  nav .cta{
+    font-family:'Fredoka';font-weight:600;font-size:14px;
+    background:var(--ink);color:#fff;padding:10px 18px;border-radius:99px;
+    text-decoration:none;transition:transform .3s var(--ease), background .3s;
+  }
+  nav .cta:hover{background:var(--pink-500);transform:translateY(-1px)}
+
+  /* ----------- Hero ----------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    padding:180px 8vw 120px;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.15fr .85fr;
+    gap:60px;align-items:center;max-width:1400px;margin:0 auto;
+    position:relative;z-index:2;
+  }
+  .eyebrow{
+    font-family:'Fredoka';font-weight:500;letter-spacing:.28em;
+    text-transform:uppercase;font-size:12px;color:var(--pink-500);
+    display:inline-flex;align-items:center;gap:10px;
+    padding:8px 16px;border:1px solid var(--pink-200);
+    border-radius:99px;background:rgba(255,255,255,.55);
+    backdrop-filter:blur(8px);
+    margin-bottom:28px;
+    opacity:0;transform:translateY(14px);
+    animation:rise .9s var(--ease) .1s forwards;
+  }
+  .eyebrow .pulse{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--pink-400);
+    box-shadow:0 0 0 0 rgba(215,163,196,.6);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(215,163,196,.55)}
+    70%{box-shadow:0 0 0 14px rgba(215,163,196,0)}
+    100%{box-shadow:0 0 0 0 rgba(215,163,196,0)}
+  }
+  h1.display{
+    font-family:'Fraunces',serif;
+    font-weight:400;font-size:clamp(52px,8.5vw,128px);
+    line-height:.94;letter-spacing:-.03em;
+    color:var(--ink);
+  }
+  h1.display .line{display:block;overflow:hidden}
+  h1.display .word{
+    display:inline-block;
+    transform:translateY(110%);
+    animation:rise-word 1.1s var(--ease) forwards;
+  }
+  h1.display .line:nth-child(1) .word{animation-delay:.15s}
+  h1.display .line:nth-child(2) .word{animation-delay:.28s}
+  h1.display .line:nth-child(3) .word{animation-delay:.42s}
+  h1.display em{
+    font-style:italic;font-weight:400;
+    color:var(--pink-400);
+    position:relative;
+  }
+  h1.display em::after{
+    content:"";position:absolute;left:-2%;right:-2%;bottom:6%;
+    height:.28em;background:var(--pink-200);z-index:-1;
+    border-radius:99px;
+    transform-origin:left;transform:scaleX(0);
+    animation:underline 1.2s var(--ease) 1s forwards;
+  }
+  @keyframes underline{to{transform:scaleX(1)}}
+  @keyframes rise-word{to{transform:translateY(0)}}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+
+  .hero-sub{
+    max-width:480px;font-size:19px;color:var(--muted);
+    margin-top:28px;line-height:1.6;
+    opacity:0;animation:rise 1s var(--ease) .8s forwards;
+  }
+  .hero-ctas{
+    display:flex;gap:14px;margin-top:36px;flex-wrap:wrap;
+    opacity:0;animation:rise 1s var(--ease) 1s forwards;
+  }
+  .btn{
+    font-family:'Fredoka';font-weight:600;font-size:15px;
+    padding:16px 28px;border-radius:99px;text-decoration:none;
+    display:inline-flex;align-items:center;gap:10px;
+    transition:all .3s var(--ease);cursor:pointer;border:none;
+  }
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-primary:hover{background:var(--pink-500);transform:translateY(-2px);box-shadow:0 14px 30px rgba(168,106,144,.28)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid rgba(43,30,40,.18)}
+  .btn-ghost:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .btn .arrow{transition:transform .3s var(--ease)}
+  .btn:hover .arrow{transform:translateX(4px)}
+
+  /* Hero illustration side */
+  .hero-art{
+    position:relative;height:560px;
+    opacity:0;animation:rise 1.2s var(--ease) .6s forwards;
+  }
+  .blob{position:absolute;border-radius:50%;filter:blur(40px);opacity:.75}
+  .blob-1{width:420px;height:420px;background:var(--pink-200);top:40px;right:20px;animation:float 9s ease-in-out infinite}
+  .blob-2{width:320px;height:320px;background:var(--pink-100);bottom:30px;left:0;animation:float 11s ease-in-out infinite reverse}
+  .blob-3{width:240px;height:240px;background:#FDE8BF;top:180px;left:140px;animation:float 13s ease-in-out infinite;opacity:.55}
+  @keyframes float{
+    0%,100%{transform:translate(0,0) scale(1)}
+    50%{transform:translate(22px,-30px) scale(1.06)}
+  }
+
+  .logo-card{
+    position:absolute;inset:40px;
+    background:linear-gradient(145deg,#fff 0%,var(--pink-50) 80%);
+    border-radius:44px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 40px 80px -20px rgba(168,106,144,.22),
+               inset 0 1px 0 rgba(255,255,255,.9);
+    overflow:hidden;
+    transform:rotate(-2deg);
+  }
+  .logo-card::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 25%,var(--pink-100),transparent 55%);
+  }
+  .logo-card img{
+    width:70%;max-width:340px;
+    animation:wobble 6s ease-in-out infinite;
+    position:relative;z-index:1;
+  }
+  @keyframes wobble{
+    0%,100%{transform:rotate(0deg) translateY(0)}
+    50%{transform:rotate(2deg) translateY(-10px)}
+  }
+
+  /* Floating hearts & paws */
+  .sprinkle{position:absolute;pointer-events:none;z-index:1;opacity:.9}
+  .sprinkle.s1{top:14%;left:8%;animation:sway 7s ease-in-out infinite}
+  .sprinkle.s2{bottom:18%;right:10%;animation:sway 9s ease-in-out infinite reverse}
+  .sprinkle.s3{top:60%;left:46%;animation:sway 11s ease-in-out infinite .5s}
+  @keyframes sway{
+    0%,100%{transform:translate(0,0) rotate(0deg)}
+    50%{transform:translate(8px,-14px) rotate(8deg)}
+  }
+
+  /* Marquee strip */
+  .marquee{
+    background:var(--ink);color:var(--pink-200);
+    padding:28px 0;overflow:hidden;position:relative;
+    font-family:'Fraunces',serif;font-style:italic;
+    font-size:clamp(28px,4.4vw,54px);font-weight:400;
+  }
+  .marquee-track{display:flex;gap:60px;white-space:nowrap;animation:marquee 40s linear infinite;width:max-content}
+  .marquee span{display:inline-flex;align-items:center;gap:60px}
+  .marquee .dot{width:10px;height:10px;border-radius:50%;background:var(--pink-300);display:inline-block}
+  @keyframes marquee{to{transform:translateX(-50%)}}
+
+  /* ----------- Sections ----------- */
+  section{padding:140px 8vw;position:relative}
+  .section-head{max-width:1400px;margin:0 auto 80px}
+  .kicker{
+    font-family:'Fredoka';font-weight:500;letter-spacing:.26em;
+    text-transform:uppercase;font-size:12px;color:var(--pink-500);
+    margin-bottom:20px;display:block;
+  }
+  h2{
+    font-family:'Fraunces',serif;font-weight:400;
+    font-size:clamp(40px,5.5vw,76px);line-height:1.02;
+    letter-spacing:-.025em;max-width:900px;
+  }
+  h2 em{font-style:italic;color:var(--pink-400)}
+
+  /* Mission / manifesto */
+  .manifesto{
+    max-width:1400px;margin:0 auto;
+    display:grid;grid-template-columns:1fr 1.2fr;gap:100px;align-items:start;
+  }
+  .manifesto-text p{
+    font-family:'Fraunces',serif;font-size:24px;line-height:1.45;
+    color:var(--ink);margin-bottom:22px;font-weight:300;
+  }
+  .manifesto-text p strong{font-weight:500;color:var(--pink-500);font-style:italic}
+  .manifesto-numbers{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .stat{
+    background:#fff;border-radius:24px;padding:32px;
+    border:1px solid var(--pink-100);
+    position:relative;overflow:hidden;
+    transition:transform .4s var(--ease), box-shadow .4s;
+  }
+  .stat:hover{transform:translateY(-6px) rotate(-.8deg);box-shadow:0 24px 40px -18px rgba(168,106,144,.25)}
+  .stat:nth-child(2){transform:translateY(40px)}
+  .stat:nth-child(2):hover{transform:translateY(34px) rotate(.8deg)}
+  .stat:nth-child(4){transform:translateY(40px)}
+  .stat:nth-child(4):hover{transform:translateY(34px) rotate(.8deg)}
+  .stat .num{
+    font-family:'Fraunces',serif;font-size:64px;line-height:1;
+    color:var(--pink-400);font-weight:400;letter-spacing:-.02em;
+  }
+  .stat .num sup{font-size:28px;vertical-align:top;margin-left:2px;color:var(--pink-300)}
+  .stat .label{
+    font-family:'Fredoka';font-size:14px;color:var(--muted);
+    margin-top:12px;line-height:1.4;
+  }
+
+  /* What we do - pillars */
+  .pillars-sec{background:linear-gradient(180deg,var(--cream) 0%,var(--cream-deep) 100%)}
+  .pillars{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .pillar{
+    background:#fff;border-radius:32px;padding:44px 36px;
+    border:1px solid var(--pink-100);
+    position:relative;overflow:hidden;
+    transition:transform .5s var(--ease), box-shadow .5s;
+  }
+  .pillar:hover{transform:translateY(-10px);box-shadow:0 40px 60px -30px rgba(168,106,144,.3)}
+  .pillar::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 80% 120%,var(--pink-100),transparent 60%);
+    opacity:0;transition:opacity .5s;pointer-events:none;
+  }
+  .pillar:hover::before{opacity:1}
+  .pillar .icon-wrap{
+    width:72px;height:72px;border-radius:22px;
+    background:linear-gradient(135deg,var(--pink-200),var(--pink-300));
+    display:flex;align-items:center;justify-content:center;
+    font-size:32px;margin-bottom:28px;
+    transition:transform .4s var(--ease), rotate .4s;
+  }
+  .pillar:hover .icon-wrap{transform:scale(1.08);rotate:-6deg}
+  .pillar h3{
+    font-family:'Fraunces',serif;font-weight:400;font-size:30px;
+    letter-spacing:-.015em;margin-bottom:14px;line-height:1.15;
+  }
+  .pillar h3 em{color:var(--pink-500);font-style:italic}
+  .pillar p{color:var(--muted);font-size:15px;line-height:1.65}
+  .pillar .num-tag{
+    position:absolute;top:36px;right:36px;
+    font-family:'Fraunces',serif;font-style:italic;
+    color:var(--pink-200);font-size:52px;line-height:1;font-weight:300;
+  }
+
+  /* Story carousel */
+  .stories{background:var(--pink-50);overflow:hidden}
+  .stories-track{
+    display:flex;gap:28px;padding:0 8vw;
+    overflow-x:auto;scroll-snap-type:x mandatory;
+    scrollbar-width:none;padding-bottom:20px;
+  }
+  .stories-track::-webkit-scrollbar{display:none}
+  .story{
+    flex:0 0 360px;scroll-snap-align:start;
+    background:#fff;border-radius:28px;overflow:hidden;
+    border:1px solid var(--pink-100);
+    transition:transform .4s var(--ease);
+  }
+  .story:hover{transform:translateY(-8px)}
+  .story .img{
+    height:260px;position:relative;overflow:hidden;
+    background:linear-gradient(135deg,var(--pink-200),var(--pink-400));
+    display:flex;align-items:center;justify-content:center;
+    font-size:96px;
+  }
+  .story .img::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.45),transparent 60%);
+  }
+  .story .badge{
+    position:absolute;top:20px;left:20px;
+    background:rgba(255,255,255,.9);backdrop-filter:blur(6px);
+    padding:6px 14px;border-radius:99px;
+    font-family:'Fredoka';font-weight:600;font-size:11px;
+    color:var(--pink-500);letter-spacing:.15em;text-transform:uppercase;
+    z-index:2;
+  }
+  .story .content{padding:28px}
+  .story h4{font-family:'Fraunces',serif;font-weight:500;font-size:26px;margin-bottom:8px;letter-spacing:-.01em}
+  .story .meta{font-family:'Fredoka';font-size:12px;color:var(--pink-500);letter-spacing:.15em;text-transform:uppercase;margin-bottom:14px}
+  .story p{color:var(--muted);font-size:14px;line-height:1.6}
+
+  /* How to help */
+  .help-sec{background:var(--cream)}
+  .help{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+  .help-visual{
+    aspect-ratio:1/1;border-radius:40px;
+    background:linear-gradient(135deg,var(--pink-300),var(--pink-500));
+    position:relative;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .help-visual::before{
+    content:"";position:absolute;inset:-40%;
+    background:conic-gradient(from 0deg,transparent 0 60%,rgba(255,255,255,.35) 75%,transparent 90%);
+    animation:spin 14s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .help-visual .circle-text{
+    position:absolute;inset:24px;
+    border:1.5px solid rgba(255,255,255,.35);border-radius:50%;
+  }
+  .help-visual .core{
+    position:relative;z-index:2;
+    width:58%;aspect-ratio:1/1;border-radius:50%;
+    background:rgba(255,255,255,.95);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:40px;
+    box-shadow:0 30px 60px rgba(43,30,40,.2);
+  }
+  .help-visual .core .big{
+    font-family:'Fraunces',serif;font-weight:300;font-style:italic;
+    color:var(--pink-500);font-size:clamp(60px,9vw,120px);line-height:.9;
+  }
+  .help-visual .core .small{
+    font-family:'Fredoka';font-weight:600;font-size:13px;
+    letter-spacing:.25em;text-transform:uppercase;color:var(--ink);margin-top:14px;
+  }
+  .help-list{list-style:none;display:flex;flex-direction:column;gap:20px}
+  .help-item{
+    display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;
+    padding:24px 28px;background:#fff;border-radius:20px;
+    border:1px solid var(--pink-100);
+    transition:all .35s var(--ease);cursor:pointer;
+  }
+  .help-item:hover{transform:translateX(8px);border-color:var(--pink-300);box-shadow:0 20px 40px -18px rgba(168,106,144,.28)}
+  .help-item .n{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:400;
+    color:var(--pink-300);font-size:32px;
+  }
+  .help-item .t{font-family:'Fredoka';font-weight:600;font-size:18px}
+  .help-item .t small{display:block;font-family:'Inter';font-weight:400;font-size:13px;color:var(--muted);margin-top:4px;letter-spacing:0}
+  .help-item .arrow{
+    width:40px;height:40px;border-radius:50%;
+    background:var(--cream);display:flex;align-items:center;justify-content:center;
+    color:var(--ink);transition:all .3s;
+  }
+  .help-item:hover .arrow{background:var(--ink);color:#fff;transform:rotate(-45deg)}
+
+  /* CTA */
+  .cta-sec{
+    background:var(--ink);color:#fff;text-align:center;
+    padding:160px 8vw;position:relative;overflow:hidden;
+  }
+  .cta-sec::before{
+    content:"";position:absolute;top:-40%;left:50%;transform:translateX(-50%);
+    width:120%;aspect-ratio:1/1;border-radius:50%;
+    background:radial-gradient(circle,var(--pink-500) 0%,transparent 55%);
+    opacity:.4;filter:blur(60px);
+  }
+  .cta-sec h2{
+    color:#fff;margin:0 auto;max-width:900px;
+    font-size:clamp(44px,6.5vw,92px);position:relative;
+  }
+  .cta-sec h2 em{color:var(--pink-200)}
+  .cta-sec p{
+    color:var(--pink-200);max-width:540px;margin:28px auto 40px;
+    font-size:18px;line-height:1.6;position:relative;
+  }
+  .cta-sec .btn-primary{background:var(--pink-300);color:var(--ink)}
+  .cta-sec .btn-primary:hover{background:#fff}
+  .cta-sec .btn-ghost{color:var(--pink-200);border-color:rgba(237,199,220,.3)}
+  .cta-sec .btn-ghost:hover{background:var(--pink-200);color:var(--ink);border-color:var(--pink-200)}
+
+  /* Footer */
+  footer{
+    background:var(--cream-deep);padding:80px 8vw 40px;
+    display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;
+    border-top:1px dashed var(--pink-200);
+  }
+  footer .brand-block .mark{
+    font-family:'Fredoka';font-weight:700;font-size:40px;
+    color:var(--pink-400);letter-spacing:-1px;line-height:1;margin-bottom:18px;
+  }
+  footer .brand-block p{color:var(--muted);font-size:14px;max-width:300px;line-height:1.6}
+  footer h5{font-family:'Fredoka';font-weight:600;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--pink-500);margin-bottom:16px}
+  footer ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+  footer a{color:var(--ink);text-decoration:none;font-size:14px;opacity:.75;transition:opacity .3s}
+  footer a:hover{opacity:1;color:var(--pink-500)}
+  .bottom{
+    grid-column:1/-1;margin-top:60px;padding-top:30px;
+    border-top:1px solid var(--pink-100);
+    display:flex;justify-content:space-between;color:var(--muted);font-size:12px;
+  }
+
+  /* Reveal on scroll */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .9s var(--ease), transform .9s var(--ease)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  .reveal-stagger > *{opacity:0;transform:translateY(30px);transition:opacity .8s var(--ease), transform .8s var(--ease)}
+  .reveal-stagger.in > *{opacity:1;transform:translateY(0)}
+  .reveal-stagger.in > *:nth-child(1){transition-delay:.05s}
+  .reveal-stagger.in > *:nth-child(2){transition-delay:.15s}
+  .reveal-stagger.in > *:nth-child(3){transition-delay:.25s}
+  .reveal-stagger.in > *:nth-child(4){transition-delay:.35s}
+  .reveal-stagger.in > *:nth-child(5){transition-delay:.45s}
+  .reveal-stagger.in > *:nth-child(6){transition-delay:.55s}
+
+  /* Responsive */
+  @media(max-width:900px){
+    nav{padding:8px 12px 8px 18px;gap:16px}
+    nav ul{display:none}
+    .hero{padding:140px 6vw 80px}
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .hero-art{height:380px}
+    .manifesto{grid-template-columns:1fr;gap:50px}
+    .pillars{grid-template-columns:1fr;gap:20px}
+    .help{grid-template-columns:1fr;gap:50px}
+    footer{grid-template-columns:1fr 1fr;gap:40px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="brand" style="text-decoration:none"><img src="logo.png" alt="Happy" style="height:28px;width:auto;display:block"></a>
+  <ul>
+    <li><a href="#mision">Misión</a></li>
+    <li><a href="#labor">Qué hacemos</a></li>
+    <li><a href="#historias">Historias</a></li>
+    <li><a href="#ayudar">Cómo ayudar</a></li>
+  </ul>
+  <a href="#donar" class="cta">Donar 🐾</a>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <!-- Floating sprinkles -->
+  <svg class="sprinkle s1" width="40" height="40" viewBox="0 0 40 40"><path fill="#D7A3C4" d="M20 35s-13-7.5-13-17a7 7 0 0 1 13-3.6A7 7 0 0 1 33 18c0 9.5-13 17-13 17z"/></svg>
+  <svg class="sprinkle s2" width="54" height="54" viewBox="0 0 54 54"><g fill="#C288AD"><ellipse cx="16" cy="16" rx="5" ry="7"/><ellipse cx="38" cy="16" rx="5" ry="7"/><ellipse cx="9" cy="28" rx="4" ry="5"/><ellipse cx="45" cy="28" rx="4" ry="5"/><ellipse cx="27" cy="38" rx="11" ry="9"/></g></svg>
+  <svg class="sprinkle s3" width="28" height="28" viewBox="0 0 40 40"><path fill="#EDC7DC" d="M20 35s-13-7.5-13-17a7 7 0 0 1 13-3.6A7 7 0 0 1 33 18c0 9.5-13 17-13 17z"/></svg>
+
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow"><span class="pulse"></span> Fundación Happy · Est. 2026</span>
+      <h1 class="display">
+        <span class="line"><span class="word">Cada cola</span></span>
+        <span class="line"><span class="word">merece un <em>hogar</em></span></span>
+        <span class="line"><span class="word">feliz.</span></span>
+      </h1>
+      <p class="hero-sub">
+        Somos una fundación dedicada a rescatar, cuidar y encontrar familia a los animales que más lo necesitan. Porque el amor no se compra — se comparte, se entrega y se devuelve multiplicado.
+      </p>
+      <div class="hero-ctas">
+        <a href="#donar" class="btn btn-primary">Hacer una donación <span class="arrow">→</span></a>
+        <a href="#mision" class="btn btn-ghost">Conoce nuestra historia</a>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+      <div class="logo-card">
+        <img src="logo.png" alt="Happy logo">
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Rescatar <span class="dot"></span> Sanar <span class="dot"></span> Adoptar <span class="dot"></span> Amar <span class="dot"></span> Rescatar <span class="dot"></span> Sanar <span class="dot"></span> Adoptar <span class="dot"></span> Amar <span class="dot"></span></span>
+    <span>Rescatar <span class="dot"></span> Sanar <span class="dot"></span> Adoptar <span class="dot"></span> Amar <span class="dot"></span> Rescatar <span class="dot"></span> Sanar <span class="dot"></span> Adoptar <span class="dot"></span> Amar <span class="dot"></span></span>
+  </div>
+</div>
+
+<!-- MISSION -->
+<section id="mision">
+  <div class="section-head reveal">
+    <span class="kicker">Nuestra misión</span>
+    <h2>Creemos que el mundo es un poco <em>más amable</em> cuando nadie se queda sin familia.</h2>
+  </div>
+
+  <div class="manifesto">
+    <div class="manifesto-text reveal">
+      <p>Happy nació del convencimiento de que <strong>ningún animal debería dormir en la calle</strong>, esperar sin saber si llegará mañana, o crecer sin una mano que lo acaricie.</p>
+      <p>Rescatamos animales abandonados, maltratados o perdidos. Les damos atención veterinaria, hogares temporales y el tiempo que necesiten para volver a confiar.</p>
+      <p>Y después — la parte más bonita — buscamos la familia perfecta para cada uno. Porque cada historia merece su final feliz.</p>
+    </div>
+
+    <div class="manifesto-numbers reveal-stagger">
+      <div class="stat">
+        <div class="num">340<sup>+</sup></div>
+        <div class="label">Animales rescatados desde nuestros primeros pasos</div>
+      </div>
+      <div class="stat">
+        <div class="num">92<sup>%</sup></div>
+        <div class="label">De nuestros rescatados encuentran un hogar definitivo</div>
+      </div>
+      <div class="stat">
+        <div class="num">28</div>
+        <div class="label">Familias de acogida que abren su casa cada mes</div>
+      </div>
+      <div class="stat">
+        <div class="num">∞</div>
+        <div class="label">Muestras de amor repartidas — ya perdimos la cuenta</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars-sec" id="labor">
+  <div class="section-head reveal">
+    <span class="kicker">Qué hacemos</span>
+    <h2>Tres caminos, una misma <em>promesa</em>: devolverles su felicidad.</h2>
+  </div>
+
+  <div class="pillars reveal-stagger">
+    <div class="pillar">
+      <div class="num-tag">01</div>
+      <div class="icon-wrap">🏥</div>
+      <h3>Rescate y <em>cuidado</em></h3>
+      <p>Atendemos llamadas de emergencia, recogemos animales en situación de abandono y les brindamos atención veterinaria completa: vacunas, desparasitación, cirugías y mucho mimo.</p>
+    </div>
+
+    <div class="pillar">
+      <div class="num-tag">02</div>
+      <div class="icon-wrap">🏡</div>
+      <h3>Hogares <em>temporales</em></h3>
+      <p>Coordinamos una red de familias de acogida donde cada animal recibe calor, juegos y confianza mientras encuentra a su familia definitiva. Un paso entre el miedo y el hogar.</p>
+    </div>
+
+    <div class="pillar">
+      <div class="num-tag">03</div>
+      <div class="icon-wrap">💞</div>
+      <h3>Adopciones <em>responsables</em></h3>
+      <p>Acompañamos a cada futura familia con entrevistas, visitas y seguimiento post-adopción. Porque adoptar no es un trámite — es el inicio de una historia para toda la vida.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STORIES -->
+<section class="stories" id="historias">
+  <div class="section-head reveal">
+    <span class="kicker">Finales felices</span>
+    <h2>Cada nombre es una historia que aprendimos a <em>querer</em>.</h2>
+  </div>
+
+  <div class="stories-track reveal">
+    <article class="story">
+      <div class="img">🐕<span class="badge">Adoptado</span></div>
+      <div class="content">
+        <h4>Canela</h4>
+        <div class="meta">Rescatada · 2 años</div>
+        <p>Llegó temblando, con una pata lesionada. Hoy corre por el parque de su nueva familia como si nunca hubiera conocido el miedo.</p>
+      </div>
+    </article>
+
+    <article class="story">
+      <div class="img">🐱<span class="badge">Adoptado</span></div>
+      <div class="content">
+        <h4>Mochi</h4>
+        <div class="meta">Rescatado · 4 meses</div>
+        <p>Lo encontramos en una caja, bajo la lluvia. Ahora dirige la casa desde su trono favorito: el hombro de su humano.</p>
+      </div>
+    </article>
+
+    <article class="story">
+      <div class="img">🐶<span class="badge">En acogida</span></div>
+      <div class="content">
+        <h4>Luna</h4>
+        <div class="meta">Rescatada · 5 años</div>
+        <p>Pasó años atada. Le estamos enseñando que las correas son para pasear, no para vivir. Busca una familia paciente.</p>
+      </div>
+    </article>
+
+    <article class="story">
+      <div class="img">🐾<span class="badge">Adoptado</span></div>
+      <div class="content">
+        <h4>Toffee</h4>
+        <div class="meta">Rescatado · 1 año</div>
+        <p>Todo pelo, todo amor. Fue el primero en salir cuando abrimos el refugio y el último en dejar de agradecérnoslo.</p>
+      </div>
+    </article>
+
+    <article class="story">
+      <div class="img">🐕‍🦺<span class="badge">En acogida</span></div>
+      <div class="content">
+        <h4>Nube</h4>
+        <div class="meta">Rescatada · 7 años</div>
+        <p>Los seniors también merecen finales felices. Nube busca un sofá tranquilo, mantas suaves y alguien que le cante bajito.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- HOW TO HELP -->
+<section class="help-sec" id="ayudar">
+  <div class="help">
+    <div class="help-visual reveal">
+      <div class="circle-text"></div>
+      <div class="core">
+        <div class="big">¿Ayudas?</div>
+        <div class="small">Todo suma</div>
+      </div>
+    </div>
+
+    <div class="reveal-stagger">
+      <span class="kicker">Cómo ayudar</span>
+      <h2 style="margin-bottom:40px">Muchas formas de <em>sumar</em>.</h2>
+      <ul class="help-list">
+        <li class="help-item">
+          <span class="n">01</span>
+          <span class="t">Donar <small>Desde $5 al mes. Cada peso se convierte en comida, medicinas o vacunas.</small></span>
+          <span class="arrow">↗</span>
+        </li>
+        <li class="help-item">
+          <span class="n">02</span>
+          <span class="t">Adoptar <small>Conoce a quienes esperan. La mejor decisión que tomarás este año.</small></span>
+          <span class="arrow">↗</span>
+        </li>
+        <li class="help-item">
+          <span class="n">03</span>
+          <span class="t">Hogar de acogida <small>Abre tu casa por semanas o meses. Te prestamos todo lo que necesites.</small></span>
+          <span class="arrow">↗</span>
+        </li>
+        <li class="help-item">
+          <span class="n">04</span>
+          <span class="t">Ser voluntario <small>Paseos, limpieza, eventos, redes sociales — hay un lugar para ti.</small></span>
+          <span class="arrow">↗</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-sec" id="donar">
+  <span class="kicker" style="color:var(--pink-300)">Tu ayuda importa</span>
+  <h2>Un pequeño gesto tuyo, <em>toda una vida</em> transformada.</h2>
+  <p>Cada donación, cada adopción, cada voluntariado se convierte en una cola que se mueve de nuevo. ¿Te unes?</p>
+  <div class="hero-ctas" style="justify-content:center">
+    <a href="#" class="btn btn-primary">Donar ahora <span class="arrow">→</span></a>
+    <a href="#" class="btn btn-ghost">Contactar a Happy</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="brand-block">
+    <img src="logo.png" alt="Happy" style="height:52px;width:auto;display:block;margin-bottom:18px">
+    <span style="display:none" class="mark">Happy 🐾</span>
+    <p>Fundación sin ánimo de lucro dedicada al rescate, cuidado y adopción de animales. Porque cada uno merece su final feliz.</p>
+  </div>
+  <div>
+    <h5>Fundación</h5>
+    <ul>
+      <li><a href="#mision">Misión</a></li>
+      <li><a href="#labor">Qué hacemos</a></li>
+      <li><a href="#historias">Historias</a></li>
+      <li><a href="#">Transparencia</a></li>
+    </ul>
+  </div>
+  <div>
+    <h5>Involúcrate</h5>
+    <ul>
+      <li><a href="#">Adoptar</a></li>
+      <li><a href="#">Acoger</a></li>
+      <li><a href="#">Voluntariado</a></li>
+      <li><a href="#donar">Donar</a></li>
+    </ul>
+  </div>
+  <div>
+    <h5>Contacto</h5>
+    <ul>
+      <li><a href="mailto:hola@happy.org">hola@happy.org</a></li>
+      <li><a href="tel:+17865475117">(786) 547-5117</a></li>
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">TikTok</a></li>
+    </ul>
+  </div>
+  <div class="bottom">
+    <span>© 2026 Fundación Happy. Hecho con cariño.</span>
+    <span>Privacidad · Términos</span>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target) }
+    });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal,.reveal-stagger').forEach(el=>io.observe(el));
+
+  // Subtle parallax on hero blobs
+  const blobs = document.querySelectorAll('.blob');
+  window.addEventListener('mousemove',(e)=>{
+    const x = (e.clientX / window.innerWidth - .5);
+    const y = (e.clientY / window.innerHeight - .5);
+    blobs.forEach((b,i)=>{
+      const s = (i+1)*8;
+      b.style.translate = `${x*s}px ${y*s}px`;
+    });
+  });
+
+  // Count-up for stats
+  const countEls = document.querySelectorAll('.stat .num');
+  const counted = new WeakSet();
+  const cio = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting || counted.has(e.target)) return;
+      counted.add(e.target);
+      const el = e.target;
+      const text = el.textContent;
+      const match = text.match(/(\d+)/);
+      if(!match) return;
+      const final = parseInt(match[1],10);
+      const suffix = text.slice(match.index + match[0].length);
+      let cur = 0;
+      const dur = 1400, start = performance.now();
+      const step = (t)=>{
+        const p = Math.min(1,(t-start)/dur);
+        const eased = 1 - Math.pow(1-p,3);
+        cur = Math.round(final * eased);
+        el.innerHTML = cur + suffix;
+        if(p<1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
+  },{threshold:.4});
+  countEls.forEach(el=>cio.observe(el));
+</script>
+</body>
+</html>
